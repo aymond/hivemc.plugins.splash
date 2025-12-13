@@ -1,0 +1,21 @@
+# Splash Plugin Configuration
+
+# Splash effect settings
+splash:
+  # Radius of the splash effect (in blocks)
+  # Higher values create larger splashes
+  radius: 3
+  
+  # Whether the splash blocks are permanent or disappear
+  # true = blocks stay forever
+  # false = blocks disappear after duration
+  permanent: false
+  
+  # Duration in seconds before blocks disappear (only used if permanent is false)
+  duration: 5
+  
+  # Material to use for the splash effect
+  # Common options: WATER, LAVA, GLASS, CONCRETE, etc.
+  # See: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+  material: WATER
+
