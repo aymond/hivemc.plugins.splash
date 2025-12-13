@@ -1,7 +1,7 @@
 name: Splash
 version: '${project.version}'
 main: com.splash.SplashPlugin
-api-version: '1.20'
+api-version: '1.21'
 description: Creates a block splash effect when players land on the ground
 author: YourName
 website: https://example.com

@@ -11,15 +11,24 @@ public class SplashPlugin extends JavaPlugin {
     
     @Override
     public void onEnable() {
-        // Initialize configuration manager
-        this.configManager = new ConfigManager(this);
-        configManager.loadConfig();
-        
-        // Register event listener
-        this.playerLandListener = new PlayerLandListener(configManager);
-        getServer().getPluginManager().registerEvents(playerLandListener, this);
-        
-        getLogger().info("Splash plugin has been enabled!");
+        try {
+            // Initialize configuration manager
+            this.configManager = new ConfigManager(this);
+            configManager.loadConfig();
+            
+            // Register event listener
+            this.playerLandListener = new PlayerLandListener(configManager);
+            getServer().getPluginManager().registerEvents(playerLandListener, this);
+            
+            getLogger().info("Splash plugin has been enabled!");
+            getLogger().info("Splash radius: " + configManager.getSplashRadius());
+            getLogger().info("Splash material: " + configManager.getSplashMaterial());
+            getLogger().info("Permanent: " + configManager.isPermanent());
+        } catch (Exception e) {
+            getLogger().severe("Failed to enable Splash plugin: " + e.getMessage());
+            e.printStackTrace();
+            getServer().getPluginManager().disablePlugin(this);
+        }
     }
     
     @Override
