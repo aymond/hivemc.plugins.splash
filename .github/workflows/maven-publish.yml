@@ -100,9 +100,18 @@ jobs:
     - name: Create and push tag
       run: |
         NEW_TAG="${{ steps.get_version.outputs.new_tag }}"
-        # Verify tag doesn't already exist
+        
+        # Fetch remote tags to check if tag already exists on remote
+        git fetch origin --tags --quiet || true
+        
+        # Verify tag doesn't already exist locally or remotely
         if git rev-parse "$NEW_TAG" >/dev/null 2>&1; then
-          echo "Error: Tag $NEW_TAG already exists"
+          echo "Error: Tag $NEW_TAG already exists locally"
+          exit 1
+        fi
+        
+        if git ls-remote --tags origin "$NEW_TAG" | grep -q "$NEW_TAG"; then
+          echo "Error: Tag $NEW_TAG already exists on remote"
           exit 1
         fi
         
