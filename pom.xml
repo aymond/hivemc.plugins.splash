@@ -13,7 +13,7 @@
     <description>Creates a block splash effect when players land on the ground</description>
 
     <properties>
-        <java.version>17</java.version>
+        <java.version>21</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <github.repository>OWNER/REPO</github.repository>
     </properties>
@@ -25,7 +25,7 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.11.0</version>
                 <configuration>
-                    <release>17</release>
+                    <release>21</release>
                 </configuration>
             </plugin>
             <plugin>
