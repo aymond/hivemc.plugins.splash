@@ -34,6 +34,22 @@ jobs:
     - name: Build with Maven
       run: mvn -B package --file pom.xml
 
+    - name: Get version from pom.xml
+      id: version
+      run: |
+        # Extract version from pom.xml (the project version tag, which is the first <version> after <artifactId>)
+        VERSION=$(grep -A 10 "<artifactId>Splash</artifactId>" pom.xml | grep "<version>" | head -1 | sed 's/.*<version>\([^<]*\)<\/version>.*/\1/')
+        
+        if [ -z "$VERSION" ]; then
+          echo "Error: Could not extract version from pom.xml"
+          echo "pom.xml content:"
+          head -20 pom.xml
+          exit 1
+        fi
+        
+        echo "version=$VERSION" >> $GITHUB_OUTPUT
+        echo "Extracted version from pom.xml: $VERSION"
+
     - name: Get tag name
       id: tag
       run: |
@@ -44,6 +60,18 @@ jobs:
           echo "tag_name=${{ github.event.release.tag_name }}" >> $GITHUB_OUTPUT
         else
           echo "tag_name=" >> $GITHUB_OUTPUT
+        fi
+        
+        # Verify tag matches pom.xml version (if tag exists)
+        if [ -n "${{ steps.tag.outputs.tag_name }}" ]; then
+          EXPECTED_TAG="v${{ steps.version.outputs.version }}"
+          ACTUAL_TAG="${{ steps.tag.outputs.tag_name }}"
+          if [ "$ACTUAL_TAG" != "$EXPECTED_TAG" ]; then
+            echo "Warning: Tag $ACTUAL_TAG does not match pom.xml version ${{ steps.version.outputs.version }}"
+            echo "Expected tag: $EXPECTED_TAG"
+          else
+            echo "Tag matches pom.xml version: $ACTUAL_TAG"
+          fi
         fi
 
     - name: Find JAR file
@@ -63,7 +91,10 @@ jobs:
       uses: softprops/action-gh-release@v1
       with:
         tag_name: ${{ steps.tag.outputs.tag_name }}
-        name: Release ${{ steps.tag.outputs.tag_name }}
+        name: Release ${{ steps.version.outputs.version }}
+        body: |
+          Version: ${{ steps.version.outputs.version }}
+          Tag: ${{ steps.tag.outputs.tag_name }}
         files: ${{ steps.find_jar.outputs.jar_file }}
         draft: false
         prerelease: ${{ contains(steps.tag.outputs.tag_name, '-') || contains(steps.tag.outputs.tag_name, 'alpha') || contains(steps.tag.outputs.tag_name, 'beta') || contains(steps.tag.outputs.tag_name, 'rc') }}

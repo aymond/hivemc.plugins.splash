@@ -18,4 +18,24 @@ splash:
   # Common options: WATER, LAVA, GLASS, CONCRETE, etc.
   # See: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
   material: WATER
+  
+  # Optional: Restrict splash effect to a specific area
+  # If enabled, splash will only occur when landing within the defined coordinates
+  # Set to null or leave empty to allow splash everywhere
+  area:
+    # First corner coordinates (X, Y, Z)
+    # Set to null to disable area restriction
+    corner1:
+      x: null
+      y: null
+      z: null
+    # Second corner coordinates (X, Y, Z)
+    # Set to null to disable area restriction
+    corner2:
+      x: null
+      y: null
+      z: null
+    # Example: To restrict splash to area from (10, 64, 20) to (30, 80, 40):
+    # corner1: {x: 10, y: 64, z: 20}
+    # corner2: {x: 30, y: 80, z: 40}
 

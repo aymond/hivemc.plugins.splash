@@ -45,7 +45,10 @@ public class PlayerLandListener implements Listener {
         // Detect landing (was in air, now on ground)
         if (inAir.contains(player) && isOnGround) {
             inAir.remove(player);
-            createSplashEffect(to, player);
+            // Check if location is within configured area (if area restriction is enabled)
+            if (configManager.isLocationInArea(to)) {
+                createSplashEffect(to, player);
+            }
         }
     }
     

@@ -24,6 +24,11 @@ public class SplashPlugin extends JavaPlugin {
             getLogger().info("Splash radius: " + configManager.getSplashRadius());
             getLogger().info("Splash material: " + configManager.getSplashMaterial());
             getLogger().info("Permanent: " + configManager.isPermanent());
+            if (configManager.isAreaRestrictionEnabled()) {
+                getLogger().info("Area restriction: ENABLED");
+            } else {
+                getLogger().info("Area restriction: DISABLED (splash works everywhere)");
+            }
         } catch (Exception e) {
             getLogger().severe("Failed to enable Splash plugin: " + e.getMessage());
             e.printStackTrace();
