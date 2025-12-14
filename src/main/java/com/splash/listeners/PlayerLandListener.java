@@ -8,7 +8,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 import com.splash.config.ConfigManager;
-import com.splash.SplashPlugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.HashSet;
@@ -17,10 +16,12 @@ import java.util.Set;
 public class PlayerLandListener implements Listener {
     
     private final ConfigManager configManager;
+    private final JavaPlugin plugin;
     private final Set<Player> inAir = new HashSet<>();
     
-    public PlayerLandListener(ConfigManager configManager) {
+    public PlayerLandListener(ConfigManager configManager, JavaPlugin plugin) {
         this.configManager = configManager;
+        this.plugin = plugin;
     }
     
     @EventHandler
@@ -90,7 +91,6 @@ public class PlayerLandListener implements Listener {
         // If not permanent, schedule removal
         if (!permanent) {
             int duration = configManager.getSplashDuration();
-            JavaPlugin plugin = JavaPlugin.getPlugin(SplashPlugin.class);
             
             // Use Paper's modern scheduler API
             plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
