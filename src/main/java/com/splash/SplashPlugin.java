@@ -17,7 +17,7 @@ public class SplashPlugin extends JavaPlugin {
             configManager.loadConfig();
             
             // Register event listener
-            this.playerLandListener = new PlayerLandListener(configManager);
+            this.playerLandListener = new PlayerLandListener(configManager, this);
             getServer().getPluginManager().registerEvents(playerLandListener, this);
             
             getLogger().info("Splash plugin has been enabled!");

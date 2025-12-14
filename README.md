@@ -48,8 +48,8 @@ The compiled JAR will be in the `target/` directory.
 
 ## Requirements
 
-- PaperMC 1.20.1 or compatible
-- Java 17 or higher
+- PaperMC 1.21.4 or higher (compatible with 1.21.8 to 1.21.11)
+- Java 21 or higher
 
 ## Testing the Plugin
 
@@ -57,19 +57,19 @@ The compiled JAR will be in the `target/` directory.
 
 1. **Download PaperMC Server**:
    - Visit [PaperMC Downloads](https://papermc.io/downloads/paper)
-   - Download PaperMC 1.20.1 (or compatible version)
+   - Download PaperMC 1.21.4 or higher (compatible with 1.21.8 to 1.21.11)
    - Create a test server directory
 
 2. **Install the Plugin**:
    ```bash
    # Copy the built JAR to your test server
-   cp target/Splash-1.0.0.jar /path/to/test-server/plugins/
+   cp target/Splash-0.0.2.jar /path/to/test-server/plugins/
    ```
 
 3. **Start the Server**:
    ```bash
    cd /path/to/test-server
-   java -jar paper-1.20.1.jar
+   java -jar paper-1.21.4.jar
    ```
    - Accept the EULA by editing `eula.txt` and setting `eula=true`
    - Restart the server

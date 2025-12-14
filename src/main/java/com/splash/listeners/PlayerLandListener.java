@@ -7,9 +7,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.scheduler.BukkitRunnable;
 import com.splash.config.ConfigManager;
-import com.splash.SplashPlugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.HashSet;
@@ -18,10 +16,12 @@ import java.util.Set;
 public class PlayerLandListener implements Listener {
     
     private final ConfigManager configManager;
+    private final JavaPlugin plugin;
     private final Set<Player> inAir = new HashSet<>();
     
-    public PlayerLandListener(ConfigManager configManager) {
+    public PlayerLandListener(ConfigManager configManager, JavaPlugin plugin) {
         this.configManager = configManager;
+        this.plugin = plugin;
     }
     
     @EventHandler
@@ -91,16 +91,15 @@ public class PlayerLandListener implements Listener {
         // If not permanent, schedule removal
         if (!permanent) {
             int duration = configManager.getSplashDuration();
-            new BukkitRunnable() {
-                @Override
-                public void run() {
-                    for (Block block : affectedBlocks) {
-                        if (block.getType() == splashMaterial) {
-                            block.setType(Material.AIR);
-                        }
+            
+            // Use Paper's modern scheduler API
+            plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
+                for (Block block : affectedBlocks) {
+                    if (block.getType() == splashMaterial) {
+                        block.setType(Material.AIR);
                     }
                 }
-            }.runTaskLater(JavaPlugin.getPlugin(SplashPlugin.class), duration * 20L); // Convert seconds to ticks
+            }, duration * 20L); // Convert seconds to ticks
         }
     }
 }
